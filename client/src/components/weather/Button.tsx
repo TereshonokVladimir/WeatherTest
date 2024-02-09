@@ -1,4 +1,3 @@
-// AddCityButton.tsx
 import React from 'react';
 import styled from 'styled-components';
 
@@ -19,6 +18,11 @@ const StyledButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
   margin-left: 5px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #45a049;
+  }
 `;
 
 export default AddCityButton;
