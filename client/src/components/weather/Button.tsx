@@ -18,6 +18,7 @@ const StyledButton = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin-left: 5px;
 `;
 
 export default AddCityButton;
