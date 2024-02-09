@@ -1,7 +1,7 @@
 // server/src/index.js
 const express = require('express');
 const bodyParser = require('body-parser');
-const apiRoutes = require('./src/routes/weatherRoutes');
+const apiRoutes = require('./routes/weatherRoutes');
 const cors = require('cors');
 
 const app = express();
