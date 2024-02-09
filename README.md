@@ -11,6 +11,9 @@ WeatherTest is a simple weather application that allows users to add and view we
 - React
 - TypeScript
 - Styled Components
+- Node.js
+- Express.js
+- Axios
 
 
 ### Prerequisites
