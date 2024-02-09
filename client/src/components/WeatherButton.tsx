@@ -7,7 +7,7 @@ interface AddCityButtonProps {
 }
 
 const AddCityButton: React.FC<AddCityButtonProps> = ({ onClick }) => {
-  return <StyledButton onClick={onClick}>Add City</StyledButton>;
+  return <StyledButton onClick={onClick}>See Weather</StyledButton>;
 };
 
 const StyledButton = styled.button`

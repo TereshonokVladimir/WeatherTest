@@ -15,35 +15,28 @@ interface WeatherInputProps {
 const WeatherInput: React.FC<WeatherInputProps> = ({ onAddCity }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+ 
 
   useEffect(() => {
     // Function to fetch city names with timeout
     const fetchCityNames = async () => {
       try {
-        setLoading(true);
-        setError(null);
-  
         const data = await WeatherService.getAllCities();
-        console.log('Received data:', data);
-  
+    
         if (Array.isArray(data) && data.every((item) => typeof item === 'string')) {
           const regex = new RegExp(`^${query.replace(/[^\w\s()]/g, '')}`, 'i');
-          const filteredCities = data.filter((city: string) => regex.test(city));
-  
+          const filteredCities = data.filter(
+            (city: string) => regex.test(city) && !/\d/.test(city)
+          );
+    
           setSuggestions(filteredCities);
         } else {
           throw new Error('Invalid data format received from the server');
         }
-      } catch (error:any) {
+      } catch (error: any) {
         console.error('Error fetching city names:', error.message);
-        // setError('Error fetching city names'); // Commented out to avoid displaying error messages
-      } finally {
-        setLoading(false);
       }
     };
-  
     // Set a timeout for 500ms after the last input change
     const timeoutId = setTimeout(fetchCityNames, 500);
   
@@ -55,8 +48,6 @@ const WeatherInput: React.FC<WeatherInputProps> = ({ onAddCity }) => {
   const handleSuggestionClick = (selectedCity: string) => {
     setQuery(selectedCity);
     setSuggestions([]);
-  
-    
   };
 
   const handleAddCityClick = () => {
@@ -76,11 +67,7 @@ const WeatherInput: React.FC<WeatherInputProps> = ({ onAddCity }) => {
         placeholder="Enter city name"
       />
       <WeatherButton onClick={handleAddCityClick} />
-
-      {/* {loading && <LoadingMessage>Loading...</LoadingMessage>}
-      {error && <ErrorMessage>{error}</ErrorMessage>} */}
-
-      <SuggestionsList show={suggestions.length > 0 && !loading && !error}>
+      <SuggestionsList show={suggestions.length > 0}>
   {suggestions.map((city) => (
     <SuggestionItem key={city} onClick={() => handleSuggestionClick(city)}>
       {city}
@@ -107,30 +94,24 @@ const Input = styled.input`
   border-radius: 4px;
 `;
 
-const LoadingMessage = styled.p`
-  margin: 5px 0;
-  color: #4caf50;
-`;
-
-const ErrorMessage = styled.p`
-  margin: 5px 0;
-  color: red;
-`;
-
 const SuggestionsList = styled.ul<SuggestionsListProps>`
   list-style: none;
   padding: 0;
-  margin: 0 auto;
+  margin: 0;
   max-height: 120px;
   overflow-y: auto;
-  width: 300px;
+  width: 334px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   position: absolute;
   visibility: ${(props) => (props.show ? 'visible' : 'hidden')};
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 20px);
 `;
+
 
 const SuggestionItem = styled.li`
   padding: 8px;
